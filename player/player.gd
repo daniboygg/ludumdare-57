@@ -2,8 +2,6 @@ extends CharacterBody2D
 
 signal sonar_activated(charges: int)
 
-@onready var light_increase_timer: Timer = $LightIncreaseTimer
-@onready var light_decrease_timer: Timer = $LightDecreaseTimer
 @onready var helmet_light: PointLight2D = $HelmetLight
 
 @onready var coyote_timer: Timer = $CoyoteTimer
