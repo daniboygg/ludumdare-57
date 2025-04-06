@@ -36,7 +36,7 @@ var charges := 5
 
 
 func _ready():
-	point_light_2d.enabled = true
+	point_light_2d.visible = true
 	point_light_2d.texture_scale = light_scale
 	light_increase_timer.wait_time = light_increasee_time
 	

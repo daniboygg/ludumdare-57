@@ -5,31 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://dby3oxedtresv" path="res://player/2d_lights_and_shadows_neutral_point_light.webp" id="3_sn2vh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdwg8"]
-radius = 12.0
+radius = 14.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 texture_filter = 1
-position = Vector2(115, 0)
 script = ExtResource("1_kl5xa")
-_is_sonar_active = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -16)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_od18b")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -12)
-shape = SubResource("CircleShape2D_hdwg8")
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, -16)
-color = Color(0.96, 0.9232, 0.7392, 1)
-energy = 0.9
-shadow_color = Color(0.46, 0.2116, 0.29854, 0.839216)
-texture = ExtResource("3_sn2vh")
-texture_scale = 3.83333
-height = 20.0
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
 [node name="LightIncreaseTimer" type="Timer" parent="."]
 wait_time = 0.15
@@ -39,9 +23,21 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
-[node name="CoyoteTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -16)
+color = Color(0.981003, 0.963787, 0.874263, 1)
+shadow_enabled = true
+texture = ExtResource("3_sn2vh")
+height = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_od18b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("CircleShape2D_hdwg8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-6.66667, -88)
@@ -56,7 +52,7 @@ offset_right = 11.0
 offset_bottom = -25.0
 grow_horizontal = 2
 pivot_offset = Vector2(8, 0)
-text = "4"
+text = "-2"
 horizontal_alignment = 1
 
 [connection signal="timeout" from="LightIncreaseTimer" to="." method="_on_light_increase_timer_timeout"]
