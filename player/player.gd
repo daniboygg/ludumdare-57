@@ -20,21 +20,27 @@ var already_jumped := false
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -300.0
-const INITIAL_CIRCLE_RADIUS := 32.0
+const INITIAL_CIRCLE_RADIUS := 64.0
 
 var light_increasee_time: float = 0.15
 var light_increase_speed: float = 20
 var circle_radius := INITIAL_CIRCLE_RADIUS
 
-var min_light_scale := 0.5
+var min_light_scale := 1
 var max_light_scale := 3.5
 var light_scale := min_light_scale
+
+@onready var label: Label = $Label
+
+var charges := 5
 
 
 func _ready():
 	point_light_2d.enabled = true
 	point_light_2d.texture_scale = light_scale
 	light_increase_timer.wait_time = light_increasee_time
+	
+	set_charges()
 	
 	
 func _process(delta: float) -> void:
@@ -87,6 +93,9 @@ func _input(event):
 				
 
 func enable_sonar():
+	charges -= 1
+	point_light_2d.energy = max(point_light_2d.energy - 0.1, 0.5)
+	set_charges()
 	light_increase_timer.start()
 	
 
@@ -105,6 +114,10 @@ func disable_sonar():
 	circle_radius = INITIAL_CIRCLE_RADIUS
 	queue_redraw()
 	
+
+func set_charges():
+	label.text = "%s" % charges
+
 
 func _on_light_increase_timer_timeout() -> void:
 	light_decrease_timer.start()

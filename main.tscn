@@ -139,7 +139,7 @@ tile_set = SubResource("TileSet_pdfok")
 
 [node name="Player" parent="World" instance=ExtResource("1_wi5bd")]
 position = Vector2(136, 288)
-_is_sonar_active = null
+_is_sonar_active = false
 
 [node name="FallPiece" parent="World" instance=ExtResource("4_tcy1j")]
 position = Vector2(288, 312)
