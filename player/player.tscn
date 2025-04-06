@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3jwqibvq7o8s"]
+[gd_scene load_steps=5 format=3 uid="uid://c3jwqibvq7o8s"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_kl5xa"]
 [ext_resource type="Texture2D" uid="uid://b86enkgm1pgmt" path="res://icon.svg" id="1_od18b"]
+[ext_resource type="Texture2D" uid="uid://dby3oxedtresv" path="res://player/2d_lights_and_shadows_neutral_point_light.webp" id="3_sn2vh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdwg8"]
-radius = 16.0
+radius = 12.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 texture_filter = 1
@@ -16,5 +17,21 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("1_od18b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -12)
 shape = SubResource("CircleShape2D_hdwg8")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("3_sn2vh")
+texture_scale = 0.5
+
+[node name="LightIncreaseTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="LightDecreaseTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="LightIncreaseTimer" to="." method="_on_light_increase_timer_timeout"]
+[connection signal="timeout" from="LightDecreaseTimer" to="." method="_on_light_decrease_timer_timeout"]
