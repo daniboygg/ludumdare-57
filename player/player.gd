@@ -1,16 +1,6 @@
-@tool
 extends CharacterBody2D
 
-signal sonar_enabled
-
-@export var _is_sonar_active: bool = false:
-	set(value):
-		if Engine.is_editor_hint():
-			if value:
-				enable_sonar()
-			else:
-				disable_sonar()
-		_is_sonar_active = value
+signal sonar_activated(charges: int)
 
 @onready var point_light_2d: PointLight2D = $PointLight2D
 @onready var light_increase_timer: Timer = $LightIncreaseTimer
@@ -34,12 +24,18 @@ var light_scale := min_light_scale
 
 @onready var label: Label = $Label
 
-var charges := 5
+var MIN_CHARGES := 0
+var MAX_CHARGES := 5
+var charges := MAX_CHARGES
 
+var MIN_ENERGY := 0.3
+var MAX_ENERGY := 1
+var BURST_ENERGY := 1.5
 
 func _ready():
 	point_light_2d.visible = true
 	point_light_2d.texture_scale = light_scale
+	point_light_2d.energy = MAX_ENERGY
 	light_increase_timer.wait_time = light_increasee_time
 	
 	set_charges()
@@ -68,10 +64,9 @@ func _physics_process(delta: float) -> void:
 		coyote_timer.stop()
 
 	# Handle jump.
-	if not Engine.is_editor_hint():
-		if Input.is_action_just_pressed("ui_accept") and is_on_coyote_floor():
-			velocity.y = JUMP_VELOCITY
-			already_jumped = true
+	if Input.is_action_just_pressed("ui_accept") and is_on_coyote_floor():
+		velocity.y = JUMP_VELOCITY
+		already_jumped = true
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -99,14 +94,27 @@ func _input(event):
 			if event.pressed and light_decrease_timer.is_stopped():
 				enable_sonar()
 				
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed and light_decrease_timer.is_stopped():
+				# cheat!
+				charges += 1
+				set_charges()
+				
 
 func enable_sonar():
-	charges -= 1
-	point_light_2d.energy = max(point_light_2d.energy - 0.1, 0.5)
+	charges = clamp(charges - 1, MIN_CHARGES, MAX_CHARGES)
+	
+	point_light_2d.energy = 1.5
+	var target_energy = remap(charges, MIN_CHARGES, MAX_CHARGES, MIN_ENERGY, MAX_ENERGY)
+	print(target_energy)
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(point_light_2d, "energy", target_energy, 2)
+	
 	set_charges()
 	light_increase_timer.start()
-	sonar_enabled.emit()
-	
+	sonar_activated.emit(charges)
+
 
 func increase_sonar_size(delta):
 	if not light_increase_timer.is_stopped():
@@ -133,6 +141,4 @@ func _on_light_increase_timer_timeout() -> void:
 
 
 func _on_light_decrease_timer_timeout() -> void:
-	if not Engine.is_editor_hint():
-		# in editor leave circles drawn until disable property
-		disable_sonar()
+	disable_sonar()
