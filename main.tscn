@@ -119,6 +119,15 @@ sources/2 = SubResource("TileSetAtlasSource_2r6i4")
 texture_filter = 1
 script = ExtResource("1_oybik")
 
+[node name="Parallax2D" type="Parallax2D" parent="World"]
+repeat_size = Vector2(640, 180)
+repeat_times = 3
+
+[node name="ColorRect" type="ColorRect" parent="World/Parallax2D"]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.52, 0.338, 0.26, 1)
+
 [node name="CanvasModulate" type="CanvasModulate" parent="World"]
 visible = false
 color = Color(0, 0, 0, 1)
@@ -129,7 +138,8 @@ tile_map_data = PackedByteArray("AAANAAoAAgACAAAAAAAOAAoAAgACAAAAAAAPAAoAAgACAAA
 tile_set = SubResource("TileSet_pdfok")
 
 [node name="Player" parent="World" instance=ExtResource("1_wi5bd")]
-position = Vector2(112, 296)
+position = Vector2(136, 288)
+_is_sonar_active = null
 
 [node name="FallPiece" parent="World" instance=ExtResource("4_tcy1j")]
 position = Vector2(288, 312)

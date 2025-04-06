@@ -1,9 +1,14 @@
 @tool
 extends CharacterBody2D
 
-@export var is_sonar_active: bool = false:
+@export var _is_sonar_active: bool = false:
 	set(value):
-		enable_sonar()
+		if Engine.is_editor_hint():
+			if value:
+				enable_sonar()
+			else:
+				disable_sonar()
+		_is_sonar_active = value
 
 @onready var point_light_2d: PointLight2D = $PointLight2D
 @onready var light_increase_timer: Timer = $LightIncreaseTimer
@@ -15,7 +20,7 @@ var already_jumped := false
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -300.0
-const INITIAL_CIRCLE_RADIUS := 32
+const INITIAL_CIRCLE_RADIUS := 32.0
 
 var light_increasee_time: float = 0.15
 var light_increase_speed: float = 20
@@ -38,7 +43,8 @@ func _process(delta: float) -> void:
 
 func _draw():
 	if not light_increase_timer.is_stopped() or not light_decrease_timer.is_stopped():
-		draw_circle(point_light_2d.position, circle_radius, Color.WHITE, false)
+		draw_circle(point_light_2d.position, circle_radius, Color.WHITE, false, 1.5)
+		draw_circle(point_light_2d.position, circle_radius * 0.8, Color.WHITE, false, 1.25)
 
 
 func _physics_process(delta: float) -> void:
@@ -105,4 +111,6 @@ func _on_light_increase_timer_timeout() -> void:
 
 
 func _on_light_decrease_timer_timeout() -> void:
-	disable_sonar()
+	if not Engine.is_editor_hint():
+		# in editor leave circles drawn until disable property
+		disable_sonar()

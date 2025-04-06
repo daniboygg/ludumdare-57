@@ -22,15 +22,18 @@ shape = SubResource("CircleShape2D_hdwg8")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(0, -16)
+color = Color(0.96, 0.9232, 0.7392, 1)
+shadow_color = Color(0.46, 0.2116, 0.29854, 0.839216)
 texture = ExtResource("3_sn2vh")
 texture_scale = 0.5
+height = 20.0
 
 [node name="LightIncreaseTimer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
 
 [node name="LightDecreaseTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.3
 one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="."]
