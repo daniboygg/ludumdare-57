@@ -2,9 +2,10 @@ extends CharacterBody2D
 
 signal sonar_activated(charges: int)
 
-@onready var helmet_light: PointLight2D = $HelmetLight
-
 @onready var coyote_timer: Timer = $CoyoteTimer
+@onready var helmet_light: PointLight2D = $HelmetLight
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 var can_trigger_coyote_time := true
 var already_jumped := false
 
@@ -79,10 +80,14 @@ func _physics_process(delta: float) -> void:
 		$Sprite2D.flip_h = true
 		helmet_light.position.x = -light_x_position
 		helmet_light.scale.x = -1
+		animation_player.play("run")
 	elif velocity.x > 0:
 		$Sprite2D.flip_h = false
 		helmet_light.position.x = light_x_position
 		helmet_light.scale.x = 1
+		animation_player.play("run")
+	else:
+		animation_player.play("idle")
 
 	move_and_slide()
 	

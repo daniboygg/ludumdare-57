@@ -1,9 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3jwqibvq7o8s"]
+[gd_scene load_steps=10 format=3 uid="uid://c3jwqibvq7o8s"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_kl5xa"]
 [ext_resource type="Texture2D" uid="uid://b8kmpnatydkkl" path="res://art/light_direction.png" id="3_1wevs"]
 [ext_resource type="Texture2D" uid="uid://ydgxollcwy41" path="res://player/player.png" id="3_otogm"]
 [ext_resource type="Texture2D" uid="uid://4qukljfloex7" path="res://art/light_point.png" id="4_8q587"]
+
+[sub_resource type="Animation" id="Animation_pg4uc"]
+length = 0.36
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_awvri"]
 resource_name = "idle"
@@ -23,8 +38,11 @@ tracks/0/keys = {
 "values": [0, 1, 3, 4, 5]
 }
 
-[sub_resource type="Animation" id="Animation_pg4uc"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_px5dn"]
+resource_name = "run"
+length = 0.9
+loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -32,16 +50,17 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0]
+"values": [9, 10, 11, 12, 13, 14, 15, 16, 17]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1n2pr"]
 _data = {
 "RESET": SubResource("Animation_pg4uc"),
-"idle": SubResource("Animation_awvri")
+"idle": SubResource("Animation_awvri"),
+"run": SubResource("Animation_px5dn")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdwg8"]
@@ -75,7 +94,8 @@ shape = SubResource("CircleShape2D_hdwg8")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -9)
 texture = ExtResource("3_otogm")
-hframes = 6
+hframes = 9
+vframes = 2
 
 [node name="HelmetLight" type="PointLight2D" parent="."]
 position = Vector2(4, -16)
