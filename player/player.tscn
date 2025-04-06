@@ -9,7 +9,6 @@ radius = 12.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 texture_filter = 1
-position = Vector2(6.66667, 0)
 script = ExtResource("1_kl5xa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -37,6 +36,9 @@ one_shot = true
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-6.66667, -88)
 
 [connection signal="timeout" from="LightIncreaseTimer" to="." method="_on_light_increase_timer_timeout"]
 [connection signal="timeout" from="LightDecreaseTimer" to="." method="_on_light_decrease_timer_timeout"]
