@@ -1,15 +1,17 @@
 [gd_scene load_steps=5 format=3 uid="uid://c3jwqibvq7o8s"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_kl5xa"]
-[ext_resource type="Texture2D" uid="uid://b86enkgm1pgmt" path="res://icon.svg" id="1_od18b"]
+[ext_resource type="Texture2D" uid="uid://ydgxollcwy41" path="res://player/player.png" id="3_otogm"]
 [ext_resource type="Texture2D" uid="uid://dby3oxedtresv" path="res://player/2d_lights_and_shadows_neutral_point_light.webp" id="3_sn2vh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdwg8"]
-radius = 14.0
+radius = 6.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 texture_filter = 1
+position = Vector2(21.25, 0)
 script = ExtResource("1_kl5xa")
+_is_sonar_active = true
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -24,35 +26,36 @@ wait_time = 0.3
 one_shot = true
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -8)
 color = Color(0.981003, 0.963787, 0.874263, 1)
 shadow_enabled = true
 texture = ExtResource("3_sn2vh")
+texture_scale = 4.33333
 height = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -16)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_od18b")
+position = Vector2(0, -9)
+texture = ExtResource("3_otogm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_hdwg8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-6.66667, -88)
+position = Vector2(0, -47)
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -8.0
-offset_top = -48.0
+offset_top = -40.0
 offset_right = 11.0
-offset_bottom = -25.0
+offset_bottom = -17.0
 grow_horizontal = 2
 pivot_offset = Vector2(8, 0)
-text = "-2"
+theme_override_font_sizes/font_size = 15
+text = "4"
 horizontal_alignment = 1
 
 [connection signal="timeout" from="LightIncreaseTimer" to="." method="_on_light_increase_timer_timeout"]

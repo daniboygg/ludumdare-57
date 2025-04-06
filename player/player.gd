@@ -1,6 +1,8 @@
 @tool
 extends CharacterBody2D
 
+signal sonar_enabled
+
 @export var _is_sonar_active: bool = false:
 	set(value):
 		if Engine.is_editor_hint():
@@ -18,16 +20,16 @@ extends CharacterBody2D
 var can_trigger_coyote_time := true
 var already_jumped := false
 
-const SPEED = 100.0
-const JUMP_VELOCITY = -300.0
-const INITIAL_CIRCLE_RADIUS := 64.0
+const SPEED = 75.0
+const JUMP_VELOCITY = -200.0
+const INITIAL_CIRCLE_RADIUS := 32.0
 
 var light_increasee_time: float = 0.15
 var light_increase_speed: float = 20
 var circle_radius := INITIAL_CIRCLE_RADIUS
 
 var min_light_scale := 1
-var max_light_scale := 3.5
+var max_light_scale := 3
 var light_scale := min_light_scale
 
 @onready var label: Label = $Label
@@ -66,9 +68,10 @@ func _physics_process(delta: float) -> void:
 		coyote_timer.stop()
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_coyote_floor():
-		velocity.y = JUMP_VELOCITY
-		already_jumped = true
+	if not Engine.is_editor_hint():
+		if Input.is_action_just_pressed("ui_accept") and is_on_coyote_floor():
+			velocity.y = JUMP_VELOCITY
+			already_jumped = true
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -77,6 +80,11 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+		
+	if velocity.x < 0:
+		$Sprite2D.flip_h = true
+	elif velocity.x > 0:
+		$Sprite2D.flip_h = false
 
 	move_and_slide()
 	
@@ -97,6 +105,7 @@ func enable_sonar():
 	point_light_2d.energy = max(point_light_2d.energy - 0.1, 0.5)
 	set_charges()
 	light_increase_timer.start()
+	sonar_enabled.emit()
 	
 
 func increase_sonar_size(delta):
