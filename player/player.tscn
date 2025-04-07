@@ -68,9 +68,11 @@ radius = 6.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 texture_filter = 1
+collision_layer = 2
 script = ExtResource("1_kl5xa")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -20.0
 offset_top = -38.0
 offset_right = 74.0
@@ -92,7 +94,7 @@ position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_hdwg8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -9)
+position = Vector2(0, -10)
 texture = ExtResource("3_otogm")
 hframes = 9
 vframes = 2

@@ -6,6 +6,8 @@ signal sonar_activated(charges: int)
 @onready var helmet_light: PointLight2D = $HelmetLight
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+var ligth_bar_scene = preload("res://objects/light_bar.tscn")
+
 var can_trigger_coyote_time := true
 var already_jumped := false
 
@@ -99,13 +101,33 @@ func is_on_coyote_floor():
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				pass
-				#enable_sonar()
+			drop_light_bar()
 				
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-				# cheat!
-				charges += 1
-				set_charges()
+			# cheat!
+			charges += 1
+			set_charges()
+
+
+func drop_light_bar():
+	var item: RigidBody2D = ligth_bar_scene.instantiate()
+	item.position = global_position + Vector2.UP * 10
+	var container = get_tree().get_nodes_in_group("lights_container")[0]
+	assert(container)
+	if container.get_child_count() >= MAX_CHARGES:
+		var child = container.get_children()[0]
+		container.remove_child(child)
+		child.queue_free()
+	
+	var force = 50
+	if velocity.x > 0 or velocity.x < 0:
+		force *= 3
+	if $Sprite2D.flip_h:
+		force = force * -1
+	force = Vector2(force, -200)
+	item.linear_velocity
+	item.apply_central_impulse(force)
+	container.add_child(item)
 
 
 func set_charges():

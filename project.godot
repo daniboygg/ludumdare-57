@@ -63,6 +63,10 @@ left={
 "events": []
 }
 
+[layer_names]
+
+2d_physics/layer_9="Layer 9"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

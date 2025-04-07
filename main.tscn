@@ -1,9 +1,8 @@
-[gd_scene load_steps=31 format=4 uid="uid://ckgtsuunxumfl"]
+[gd_scene load_steps=30 format=4 uid="uid://ckgtsuunxumfl"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_oybik"]
 [ext_resource type="PackedScene" uid="uid://c3jwqibvq7o8s" path="res://player/player.tscn" id="1_wi5bd"]
 [ext_resource type="Texture2D" uid="uid://c85t7rndfo7ce" path="res://art/tileset.png" id="2_j4d54"]
-[ext_resource type="Texture2D" uid="uid://4qukljfloex7" path="res://art/light_point.png" id="4_sh57e"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7koqh"]
 polygon = PackedVector2Array(-6, -6.125, 6.875, -5.5, 6.75, 8, -7, 8)
@@ -288,6 +287,7 @@ offset_bottom = 504.0
 color = Color(0.605469, 0.603104, 0.603104, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="World"]
+visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="World"]
@@ -295,11 +295,8 @@ tile_map_data = PackedByteArray("AAACAAAAAQADAAMAAAABAAAAAQAFAAMAAAAAAAAAAQACAAM
 tile_set = SubResource("TileSet_pdfok")
 
 [node name="Player" parent="World" instance=ExtResource("1_wi5bd")]
+position = Vector2(-8, 64)
 
-[node name="PointLight2D" type="PointLight2D" parent="World"]
-position = Vector2(32, 56)
-color = Color(0.523109, 0.820312, 0.461426, 1)
-energy = 0.5
-texture = ExtResource("4_sh57e")
+[node name="LightsContainer" type="Node" parent="World" groups=["lights_container"]]
 
 [connection signal="sonar_activated" from="World/Player" to="World" method="_on_player_sonar_activated"]

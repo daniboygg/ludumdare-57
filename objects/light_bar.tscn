@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0s18euqpndse"]
+
+[ext_resource type="Texture2D" uid="uid://4qukljfloex7" path="res://art/light_point.png" id="1_51g6w"]
+[ext_resource type="Script" path="res://objects/light_bar.gd" id="1_nvq4c"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yeh1l"]
+bounce = 0.3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3k6l6"]
+radius = 5.0
+
+[node name="LightBar" type="RigidBody2D"]
+collision_layer = 4
+physics_material_override = SubResource("PhysicsMaterial_yeh1l")
+angular_damp = 10.0
+script = ExtResource("1_nvq4c")
+energy = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3k6l6")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.523109, 0.820312, 0.461426, 1)
+energy = 0.3
+texture = ExtResource("1_51g6w")
+texture_scale = 10.0
+
+[node name="PointLight2DPoint" type="PointLight2D" parent="."]
+color = Color(0.330522, 0.734375, 0.246704, 1)
+texture = ExtResource("1_51g6w")
+texture_scale = 0.2
+
+[node name="PointLight2DShadow" type="PointLight2D" parent="."]
+visible = false
+color = Color(0.116077, 0.269531, 0.0842285, 1)
+shadow_enabled = true
+texture = ExtResource("1_51g6w")
+texture_scale = 3.0
